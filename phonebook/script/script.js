@@ -1,4 +1,27 @@
 'use strict';
+const data = [
+    {
+        name: 'Иван',
+        surname: 'Петров',
+        phone: '+79514545454',
+    },
+    {
+        name: 'Игорь',
+        surname: 'Семёнов',
+        phone: '+79999999999',
+    },
+    {
+        name: 'Семён',
+        surname: 'Иванов',
+        phone: '+79800252525',
+    },
+    {
+        name: 'Мария',
+        surname: 'Попова',
+        phone: '+79876543210',
+    },
+];
+
 {
     const createContainer = () => {
         const container = document.createElement('div');
@@ -45,29 +68,136 @@
         };
     };
 
-    const init = (selectorApp, title) =>{
-        const app = document.querySelector(selectorApp);
-        const header = createHeader();
-        const logo = createLogo(title);
-        const main = createMain();
-        const buttonGroup = createButtonsGroup(
+    const createTable = () => {
+        const table = document.createElement('table');
+        table.classList.add('table', 'table-striped');
+
+        const thead = document.createElement('thead');
+        thead.insertAdjacentHTML('beforeend', `
+            <tr>
+                <th class="delete"> Удалить</th>
+                <th>Имя</th>
+                <th>Фамилия</th>
+                <th>Телефон</th>
+            </tr>   
+        `);
+
+        const tbody = document.createElement('tbody');
+        table.append(thead, tbody);
+        table.tbody = tbody;
+
+        return table;
+    };
+
+    const createForm = () => {
+        const overlay = document.createElement('div');
+        overlay.classList.add('form-overlay');
+
+        const form = document.createElement('form');
+        form.classList.add('form');
+        form.insertAdjacentHTML('beforeend', `
+        <button class="close" type="button"></button>
+        <h2 class="form-title"> Добавить контакт</h2>
+            <div class="form-group">
+                <label for="name" class="form-label"> Имя</label>
+                <input type="text" class="form-input" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="surname" class="form-label"> Фамилия</label>
+                <input type="text" class="form-input" id="surname" name="surname" required>
+            </div>
+            <div class="form-group">
+                <label for="phone" class="form-label"> Телефон</label>
+                <input type="number" class="form-input" id="phone" name="phone" required>
+            </div>
+        `);
+        const buttonGroup = createButtonsGroup([
             {
                 className: 'btn btn-primary mr-3',
-                type: 'button',
+                type: 'submit',
                 text: 'Добавить',
             },
             {
                 className: 'btn btn-danger',
-                type: 'button',
-                text: 'Удалить',
+                type: 'reset',
+                text: 'Отмена',
             },
-            );
+        ]);
+        form.append(...buttonGroup.btns);
+        overlay.append(form);
+        return {
+            overlay,
+            form,
+        };
+    };
 
+    const createFooter = (title) => {
+        const footer = document.createElement('footer');
+        footer.classList.add('footer');
+        const footerContainer = createContainer();
+        footerContainer.insertAdjacentHTML('beforeend', `<span>Все права защищены &copy; ${title}</span>`)
+        footer.append(footerContainer);
+        footer.footerContainer = footerContainer;
+        return footer;
+    }
+    const renderPhoneBook = (app, title) =>{
+        const header = createHeader();
+        const logo = createLogo(title);
+        const main = createMain();
+        const buttonGroup = createButtonsGroup([
+                {
+                    className: 'btn btn-primary mr-3',
+                    type: 'button',
+                    text: 'Добавить',
+                },
+                {
+                    className: 'btn btn-danger',
+                    type: 'button',
+                    text: 'Удалить',
+                },
+        ]);
+
+        const table = createTable();
+        const form = createForm();
+        const footer = createFooter(title);
         header.headerContainer.append(logo);
-        main.mainContainer.append(buttonGroup.btnWrapper);
+        main.mainContainer.append(buttonGroup.btnWrapper, table, form.overlay);
 
-        app.append(header, main);
+        app.append(header, main, footer);
+        return {
+            list: table.tbody,
+        }
+    };
+    const createRow = ({name, surname, phone}) => {
 
+        const tr = document.createElement('tr');
+        const tdDel = document.createElement('td');
+        tdDel.classList.add('delete');
+        const buttonDel = document.createElement('button');
+        buttonDel.classList.add('del-icon');
+        tdDel.append(buttonDel);
+        const tdName = document.createElement('td');
+        tdName.textContent = name;
+        const tdSurname = document.createElement('td');
+        tdSurname.textContent = surname;
+        const tdPhone = document.createElement('td');
+        const phoneLink = document.createElement('a');
+        phoneLink.href = `tel: ${phone}`;
+        phoneLink.textContent = phone;
+        tdPhone.append(phoneLink);
+        tr.append(tdDel, tdName, tdSurname, tdPhone);
+        return tr;
+    };
+    const renderContacts = (elem, data) => {
+        const allRow = data.map(createRow);
+        elem.append(...allRow);
+    };
+    const init = (selectorApp, title) =>{
+        const app = document.querySelector(selectorApp);
+        const phoneBook = renderPhoneBook(app, title);
+        const { list } = phoneBook;
+        renderContacts(list, data);
+        // функционал
     };
     window.phoneBookInit = init;
 }
