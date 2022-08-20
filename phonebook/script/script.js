@@ -23,6 +23,10 @@ const data = [
 ];
 
 {
+    const addContactData = contact => {
+        data.push(contact);
+        console.log(data);
+    };
     const createContainer = () => {
         const container = document.createElement('div');
         container.classList.add('container');
@@ -158,10 +162,10 @@ const data = [
         ]);
 
         const table = createTable();
-        const form = createForm();
+        const {form, overlay} = createForm();
         const footer = createFooter(title);
         header.headerContainer.append(logo);
-        main.mainContainer.append(buttonGroup.btnWrapper, table, form.overlay);
+        main.mainContainer.append(buttonGroup.btnWrapper, table, overlay);
 
         app.append(header, main, footer);
         return {
@@ -169,8 +173,8 @@ const data = [
             logo,
             btnAdd: buttonGroup.btns[0],
             btnDel: buttonGroup.btns[1],
-            formOverlay: form.overlay,
-            form: form.form,
+            formOverlay: overlay,
+            form,
         }
     };
     const createRow = ({name, surname, phone}) => {
@@ -211,29 +215,8 @@ const data = [
             });
         });
     };
-    const init = (selectorApp, title) =>{
-        const app = document.querySelector(selectorApp);
-        const phoneBook = renderPhoneBook(app, title);
-        const { list, logo, btnAdd, btnDel, formOverlay, form } = phoneBook;
 
-        // функционал
-        const allRow = renderContacts(list, data);
-        hoverRow(allRow, logo);
-
-        btnAdd.addEventListener('click', () => {
-            formOverlay.classList.add('is-visible');
-        } );
-        // блокировка всплытия событий
-        // form.addEventListener('click', e => {
-        //     e.stopPropagation();
-        // })
-        formOverlay.addEventListener('click', (e) => {
-            const target = e.target;
-            if(target === formOverlay || target.classList.contains('close')) {
-                formOverlay.classList.remove('is-visible');
-            }
-        });
-
+    const deleteControl = (btnDel,list ) => {
         btnDel.addEventListener('click', () => {
             document.querySelectorAll('.delete').forEach(del => {
                 del.classList.toggle('is-visible');
@@ -245,6 +228,55 @@ const data = [
                 target.closest('.contact').remove();
             }
         });
+    };
+
+    const modalControl = (btnAdd,formOverlay ) => {
+        const openModal = () => {
+            formOverlay.classList.add('is-visible');
+        };
+        const closeModal = () => {
+            formOverlay.classList.remove('is-visible');
+        };
+        btnAdd.addEventListener('click', openModal);
+        // блокировка всплытия событий
+        // form.addEventListener('click', e => {
+        //     e.stopPropagation();
+        // })
+        formOverlay.addEventListener('click', (e) => {
+            const target = e.target;
+            if(target === formOverlay || target.classList.contains('close')) {
+                closeModal();
+            }
+        });
+        return {
+            closeModal,
+        };
+    };
+    const addContactPage = (contact, list) =>{
+        list.append(createRow(contact));
+    };
+    const formControl = (form, list, closeModal) => {
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const newContact = Object.fromEntries(formData);
+        addContactPage(newContact, list);
+        addContactData(newContact);
+        form.reset(); // очистка формы после отправки
+        closeModal();
+     });
+    };
+    const init = (selectorApp, title) =>{
+        const app = document.querySelector(selectorApp);
+        const { list, logo, btnAdd, btnDel, formOverlay, form } = renderPhoneBook(app, title);
+
+        // функционал
+        const allRow = renderContacts(list, data);
+        const {closeModal} = modalControl(btnAdd,formOverlay);
+
+        hoverRow(allRow, logo);
+        deleteControl(btnDel,list );
+        formControl(form, list, closeModal);
         // setTimeout(() => {
         //     const contact = createRow({
         //         name: 'Мария',
