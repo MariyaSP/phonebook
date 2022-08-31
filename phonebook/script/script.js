@@ -1,32 +1,42 @@
 'use strict';
-const data = [
-    {
-        name: 'Иван',
-        surname: 'Петров',
-        phone: '+79514545454',
-    },
-    {
-        name: 'Игорь',
-        surname: 'Семёнов',
-        phone: '+79999999999',
-    },
-    {
-        name: 'Семён',
-        surname: 'Иванов',
-        phone: '+79800252525',
-    },
-    {
-        name: 'Мария',
-        surname: 'Попова',
-        phone: '+79876543210',
-    },
-];
+let data;
 
-{
-    const addContactData = contact => {
-        data.push(contact);
-        console.log(data);
+{ const getStorage = (key) => {
+    if (localStorage.getItem(key) !== null) {
+        data = JSON.parse(localStorage[key]);
+    }
+    else {
+        data = [];
+    }
+    return  data;
+};
+
+    const setStorage = (key, item) => {
+        let contactList = getStorage(key);
+        contactList.push(item);
+        localStorage[key] = JSON.stringify(contactList);
+
     };
+    const removeStorage = (phone) => {
+        let contactList = getStorage('contacts');
+        console.log("бла бла" , contactList);
+        let flagDel = 0;
+        contactList.forEach((contact, i) => {
+            if (contact.phone === phone){
+                contactList.splice(i, 1);
+                console.log("бла бла" , contactList);
+                localStorage.contacts = JSON.stringify(contactList);
+                alert('Номер удален');
+                flagDel = 1;
+            }
+        });
+        if (flagDel === 0){
+            alert('Контакта с таким номером телефона нет');
+        }
+
+        return contactList;
+    };
+
     const createContainer = () => {
         const container = document.createElement('div');
         container.classList.add('container');
@@ -201,6 +211,8 @@ const data = [
     };
     const renderContacts = (elem, data) => {
         const allRow = data.map(createRow);
+        console.log(elem);
+        elem.innerHTML = '';
         elem.append(...allRow);
         return allRow;
     };
@@ -218,8 +230,12 @@ const data = [
 
     const deleteControl = (btnDel,list ) => {
         btnDel.addEventListener('click', () => {
+            const tel = prompt('Введите номер телефона');
+            data = removeStorage(tel);
+           renderContacts(list, data);
             document.querySelectorAll('.delete').forEach(del => {
                 del.classList.toggle('is-visible');
+
             });
         });
         list.addEventListener('click', e => {
@@ -261,7 +277,8 @@ const data = [
         const formData = new FormData(e.target);
         const newContact = Object.fromEntries(formData);
         addContactPage(newContact, list);
-        addContactData(newContact);
+        setStorage('contacts', newContact);
+
         form.reset(); // очистка формы после отправки
         closeModal();
      });
@@ -271,6 +288,7 @@ const data = [
         const { list, logo, btnAdd, btnDel, formOverlay, form } = renderPhoneBook(app, title);
 
         // функционал
+        data = getStorage('contacts');
         const allRow = renderContacts(list, data);
         const {closeModal} = modalControl(btnAdd,formOverlay);
 
