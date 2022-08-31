@@ -19,12 +19,10 @@ let data;
     };
     const removeStorage = (phone) => {
         let contactList = getStorage('contacts');
-        console.log("бла бла" , contactList);
         let flagDel = 0;
         contactList.forEach((contact, i) => {
             if (contact.phone === phone){
                 contactList.splice(i, 1);
-                console.log("бла бла" , contactList);
                 localStorage.contacts = JSON.stringify(contactList);
                 alert('Номер удален');
                 flagDel = 1;
@@ -211,7 +209,6 @@ let data;
     };
     const renderContacts = (elem, data) => {
         const allRow = data.map(createRow);
-        console.log(elem);
         elem.innerHTML = '';
         elem.append(...allRow);
         return allRow;
@@ -247,8 +244,12 @@ let data;
     };
 
     const modalControl = (btnAdd,formOverlay ) => {
+
         const openModal = () => {
             formOverlay.classList.add('is-visible');
+            document.querySelectorAll('.delete').forEach(del => {
+                del.classList.remove('is-visible');
+            });
         };
         const closeModal = () => {
             formOverlay.classList.remove('is-visible');
