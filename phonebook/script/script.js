@@ -1,4 +1,5 @@
 'use strict';
+let data;
 const {
     deleteControl,
     modalControl,
@@ -11,13 +12,10 @@ const {
 
 const {
     getStorage,
-    setStorage,
-    removeStorage,
 } = require('./modules/serviceStorage');
 
 
-{   let data;
-    const hoverRow = (allRow, logo) => {
+{      const hoverRow = (allRow, logo) => {
         const text = logo.textContent;
         allRow.forEach(contact => {
             contact.addEventListener('mouseenter', () => {

@@ -1,5 +1,3 @@
-'use strict';
-
 const {
     renderContacts,
 } = require('./render');
@@ -15,14 +13,16 @@ const {
 
 const deleteControl = (btnDel,list ) => {
     btnDel.addEventListener('click', () => {
-        const tel = prompt('Введите номер телефона');
-        data = removeStorage(tel);
-        renderContacts(list, data);
+        // const tel = prompt('Введите номер телефона');
+        // data = removeStorage(tel);
+        // renderContacts(list, data);
         document.querySelectorAll('.delete').forEach(del => {
             del.classList.toggle('is-visible');
 
         });
     });
+    console.log(list);
+
     list.addEventListener('click', e => {
         const target = e.target;
         if(target.closest('.del-icon')){
