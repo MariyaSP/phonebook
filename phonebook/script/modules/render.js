@@ -1,15 +1,15 @@
-'use strict';
-
-const{
-    createHeader,
-    createLogo,
-    createMain,
-    createButtonsGroup,
-    createTable,
-    createForm,
-    createFooter,
-    createRow,
-} = require('./createElements');
+// 'use strict';
+//
+// const{
+//     createHeader,
+//     createLogo,
+//     createMain,
+//     createButtonsGroup,
+//     createTable,
+//     createForm,
+//     createFooter,
+//     createRow,
+// } = require('./createElements');
 
 const renderPhoneBook = (app, title) =>{
     const header = createHeader();
@@ -51,7 +51,7 @@ const renderContacts = (elem, data) => {
     return allRow;
 };
 
-module.exports = {
+export default {
     renderPhoneBook,
     renderContacts,
     };

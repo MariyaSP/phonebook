@@ -1,19 +1,24 @@
-'use strict';
+import control from "./modules/control.js";
+import render from "./modules/render.js";
+import createElements from "./modules/createElements.js";
+import serviceStorage from "./modules/serviceStorage.js";
+
+
 let data;
-const {
-    deleteControl,
-    modalControl,
-    formControl,
-} = require('./modules/control');
-const {
-    renderPhoneBook,
-    renderContacts,
-} = require('./modules/render');
-
-const {
-    getStorage,
-} = require('./modules/serviceStorage');
-
+// const {
+//     deleteControl,
+//     modalControl,
+//     formControl,
+// } = require('./modules/control');
+// const {
+//     renderPhoneBook,
+//     renderContacts,
+// } = require('./modules/render');
+//
+// const {
+//     getStorage,
+// } = require('./modules/serviceStorage');
+//
 
 {      const hoverRow = (allRow, logo) => {
         const text = logo.textContent;

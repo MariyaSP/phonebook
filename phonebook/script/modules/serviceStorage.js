@@ -1,4 +1,4 @@
-'use strict';
+// 'use strict';
 const getStorage = (key) => {
     let data;
      data = localStorage.getItem(key) !== null ?  JSON.parse(localStorage[key]) : [];
@@ -27,7 +27,7 @@ const removeStorage = (phone) => {
 
     return contactList;
 };
-module.exports = {
+export default {
     getStorage,
     setStorage,
     removeStorage,

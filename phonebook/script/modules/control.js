@@ -1,15 +1,15 @@
-const {
-    renderContacts,
-} = require('./render');
-
-const{
-    createRow,
-} = require('./createElements');
-
-const {
-    setStorage,
-    removeStorage,
-} = require('./serviceStorage');
+// const {
+//     renderContacts,
+// } = require('./render');
+//
+// const{
+//     createRow,
+// } = require('./createElements');
+//
+// const {
+//     setStorage,
+//     removeStorage,
+// } = require('./serviceStorage');
 
 const deleteControl = (btnDel,list ) => {
     btnDel.addEventListener('click', () => {
@@ -71,7 +71,7 @@ const formControl = (form, list, closeModal) => {
         closeModal();
     });
 };
-    module.exports =  {
+    export default {
         deleteControl,
         modalControl,
         formControl,
