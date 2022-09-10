@@ -1,32 +1,19 @@
-// const {
-//     renderContacts,
-// } = require('./render');
-//
-// const{
-//     createRow,
-// } = require('./createElements');
-//
-// const {
-//     setStorage,
-//     removeStorage,
-// } = require('./serviceStorage');
-import serviceStorage from "serviceStorage";
-import createElements from "createElements";
-
-const { setStorage } = serviceStorage;
+import serviceStorage from "./serviceStorage.js";
+import createElements from "./createElements.js";
+import render from "./render.js"
+const { setStorage, removeStorage } = serviceStorage;
 const { addContactPage } = createElements;
-
-const deleteControl = (btnDel,list ) => {
+const {renderContacts} = render;
+export const deleteControl = (btnDel,list ) => {
     btnDel.addEventListener('click', () => {
-        // const tel = prompt('Введите номер телефона');
-        // data = removeStorage(tel);
-        // renderContacts(list, data);
+        const tel = prompt('Введите номер телефона');
+        let data = removeStorage(tel);
+        renderContacts(list, data);
         document.querySelectorAll('.delete').forEach(del => {
             del.classList.toggle('is-visible');
 
         });
     });
-    console.log(list);
 
     list.addEventListener('click', e => {
         const target = e.target;
@@ -35,7 +22,7 @@ const deleteControl = (btnDel,list ) => {
         }
     });
 };
-const modalControl = (btnAdd,formOverlay ) => {
+export const modalControl = (btnAdd,formOverlay ) => {
 
     const openModal = () => {
         formOverlay.classList.add('is-visible');
@@ -62,7 +49,7 @@ const modalControl = (btnAdd,formOverlay ) => {
     };
 };
 
-const formControl = (form, list, closeModal) => {
+export const formControl = (form, list, closeModal) => {
     form.addEventListener('submit', e => {
         e.preventDefault();
         const formData = new FormData(e.target);
@@ -74,8 +61,8 @@ const formControl = (form, list, closeModal) => {
         closeModal();
     });
 };
-    export default {
-        deleteControl,
-        modalControl,
-        formControl,
-    };
+    // export default {
+    //     deleteControl,
+    //     modalControl,
+    //     formControl,
+    // };

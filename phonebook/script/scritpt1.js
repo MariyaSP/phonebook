@@ -1,10 +1,9 @@
-import control from "./modules/control.js";
+import { deleteControl as delControl, modalControl, formControl } from "./modules/control.js";
 import serviceStorage from "./modules/serviceStorage.js";
 import render from "./modules/render.js";
 
-
 const { getStorage} = serviceStorage;
-const { deleteControl, modalControl, formControl } = control;
+//const { delControl, modalControl, formControl } = control;
 const { renderPhoneBook, renderContacts } = render;
 
 const init = (selectorApp, title) => {
@@ -12,11 +11,10 @@ const init = (selectorApp, title) => {
     const {list, logo, btnAdd, btnDel, formOverlay, form} = renderPhoneBook(app, title);
 
     // функционал
-    data = getStorage('contacts');
+    let data = getStorage('contacts');
     const allRow = renderContacts(list, data);
     const {closeModal} = modalControl(btnAdd, formOverlay);
-    deleteControl(btnDel, list);
+    delControl(btnDel, list);
     formControl(form, list, closeModal);
-    console.log('bla bla');
 }
 window.phoneBookInit = init;
