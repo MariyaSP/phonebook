@@ -57,6 +57,6 @@ const renderContacts = (elem, data) => {
 };
 
 export default {
-
-
+    renderContacts,
+    renderPhoneBook,
     };

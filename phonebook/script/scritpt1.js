@@ -1,8 +1,11 @@
 import control from "./modules/control.js";
 import serviceStorage from "./modules/serviceStorage.js";
+import render from "./modules/render.js";
+
 
 const { getStorage} = serviceStorage;
 const { deleteControl, modalControl, formControl } = control;
+const { renderPhoneBook, renderContacts } = render;
 
 const init = (selectorApp, title) => {
     const app = document.querySelector(selectorApp);
