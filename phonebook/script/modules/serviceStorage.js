@@ -1,4 +1,5 @@
 // 'use strict';
+
 const getStorage = (key) => {
     let data;
      data = localStorage.getItem(key) !== null ?  JSON.parse(localStorage[key]) : [];
