@@ -10,6 +10,11 @@
 //     setStorage,
 //     removeStorage,
 // } = require('./serviceStorage');
+import serviceStorage from "serviceStorage";
+import createElements from "createElements";
+
+const { setStorage } = serviceStorage;
+const { addContactPage } = createElements;
 
 const deleteControl = (btnDel,list ) => {
     btnDel.addEventListener('click', () => {
@@ -56,9 +61,7 @@ const modalControl = (btnAdd,formOverlay ) => {
         closeModal,
     };
 };
-const addContactPage = (contact, list) =>{
-    list.append(createRow(contact));
-};
+
 const formControl = (form, list, closeModal) => {
     form.addEventListener('submit', e => {
         e.preventDefault();

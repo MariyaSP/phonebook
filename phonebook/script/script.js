@@ -20,7 +20,7 @@ let data;
 // } = require('./modules/serviceStorage');
 //
 
-{      const hoverRow = (allRow, logo) => {
+     const hoverRow = (allRow, logo) => {
         const text = logo.textContent;
         allRow.forEach(contact => {
             contact.addEventListener('mouseenter', () => {
@@ -65,4 +65,3 @@ let data;
         // ========================
     };
     window.phoneBookInit = init;
-}

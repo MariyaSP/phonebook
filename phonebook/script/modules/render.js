@@ -10,6 +10,10 @@
 //     createFooter,
 //     createRow,
 // } = require('./createElements');
+import createElements from "createElements";
+
+const { createHeader, createLogo, createMain, createButtonsGroup, createTable, createForm, createFooter, createRow } = createElements;
+
 
 const renderPhoneBook = (app, title) =>{
     const header = createHeader();
@@ -52,6 +56,6 @@ const renderContacts = (elem, data) => {
 };
 
 export default {
-    renderPhoneBook,
-    renderContacts,
+
+
     };

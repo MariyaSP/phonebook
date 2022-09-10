@@ -4,7 +4,7 @@ const createContainer = () => {
     container.classList.add('container');
     return container;
 };
-const createHeader = () =>{
+const createHeader = () => {
     const header = document.createElement('header');
     header.classList.add('header');
     const headerContainer = createContainer();
@@ -135,6 +135,9 @@ const createRow = ({name, surname, phone}) => {
     tr.append(tdDel, tdName, tdSurname, tdPhone);
     return tr;
 };
+const addContactPage = (contact, list) => {
+    list.append(createRow(contact));
+};
 
 export default {
     createHeader,
@@ -145,4 +148,5 @@ export default {
     createForm,
     createFooter,
     createRow,
+    addContactPage,
 };
